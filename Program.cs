@@ -42,6 +42,17 @@ class Program
             }
 
             Console.WriteLine();
+
         }
+
+        lobby.GetWinningTeam();
+
+        Console.Write("winning team: ");
+        Console.WriteLine(lobby.WinningTeam);
+
+        Console.Write("score: ");
+        Console.Write(lobby.BlueWins.ToString());
+        Console.Write(" - ");
+        Console.WriteLine(lobby.RedWins.ToString());
     }
 }

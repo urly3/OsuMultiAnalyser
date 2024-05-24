@@ -1,4 +1,5 @@
 using System.Net;
+using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
 namespace OsuMultiAnalyser;
@@ -11,6 +12,10 @@ public class Lobby
     public long first_event_id { get; set; }
     public long latest_event_id { get; set; }
     public object? current_game_id { get; set; }
+
+    public string WinningTeam { get; set; } = "";
+    public int RedWins { get; set; }
+    public int BlueWins { get; set; }
 
     public static Lobby Parse(int id)
     {
@@ -63,7 +68,7 @@ public class Lobby
 
                 lobbyFirstEventId = newLobby.events[0].id ?? throw new Exception("null or something");
             }
-
+           
             return lobby;
         }
     }
@@ -71,6 +76,33 @@ public class Lobby
     public static string GenerateAdditionalQueryString(long event_id)
     {
         return @"?before=" + event_id.ToString() + @"&limit=100";
+    }
+
+    public void GetWinningTeam()
+    {
+        foreach (var gameEvent in this.events?.Where(e => e.game != null))
+        {
+            if (gameEvent.game?.scores?.Count == 0) continue;
+            //sum up the scores of each map and increment winner.
+            long redTotalScore = 0;
+            long blueTotalScore = 0;
+
+            foreach (var score in gameEvent.game?.scores?.Where(s => s.match?.team == "red"))
+            {
+                redTotalScore += score.score;
+            }
+            foreach (var score in gameEvent.game.scores.Where(s => s.match?.team == "blue"))
+            {
+                blueTotalScore += score.score;
+            }
+
+            _ = (redTotalScore > blueTotalScore) ? ++this.RedWins : ++this.BlueWins;
+
+            Console.WriteLine("id: " + gameEvent.id);
+            Console.WriteLine("map: " + gameEvent?.game?.beatmap?.beatmapset?.title);
+        }
+
+        _ = this.RedWins > this.BlueWins ? this.WinningTeam = "red" : this.WinningTeam = "blue";
     }
 }
 
@@ -250,7 +282,7 @@ public class User
         foreach (var score in scores.Where(s => s.user_id == this.id))
         {
             averageScore += score.score;
-            scoreCount++;
+            ++scoreCount;
         }
 
         if (scoreCount == 0)
@@ -279,7 +311,7 @@ public class User
         foreach (var score in scores.Where(s => s.user_id == this.id))
         {
             averageAccuracy += score.accuracy;
-            scoreCount++;
+            ++scoreCount;
         }
 
         return averageAccuracy / scoreCount;
