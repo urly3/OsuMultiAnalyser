@@ -184,7 +184,7 @@ public class Match
 
 public class Score
 {
-    public double accuracy { get; set; }
+    public float accuracy { get; set; }
     public object? best_id { get; set; }
     public DateTime created_at { get; set; }
     public object? id { get; set; }
@@ -231,5 +231,67 @@ public class User
     public object? profile_colour { get; set; }
     public string? username { get; set; }
     public Country? country { get; set; }
-}
 
+    public int Impact { get; set; } = 0;
+
+    public int AverageScore { get; set; } = 0;
+    public int HighestScore { get; set; } = 0;
+    public int LowestScore { get; set; } = 0;
+
+    public float AverageAccuracy { get; set; } = 0;
+    public float HighestAccuracy { get; set; } = 0;
+    public float LowestAccuracy { get; set; } = 0;
+
+    public int? CaculateAverageScore(List<Score> scores)
+    {
+        int averageScore = 0;
+        int scoreCount = 0;
+
+        foreach (var score in scores.Where(s => s.user_id == this.id))
+        {
+            averageScore += score.score;
+            scoreCount++;
+        }
+
+        if (scoreCount == 0)
+        {
+            return null;
+        }
+
+        return averageScore / scoreCount;
+    }
+
+    public int GetHighestScore(List<Score> scores)
+    {
+        return scores.Where(s => s.user_id == this.id).Max(s => s.score);
+    }
+
+    public int GetLowestScore(List<Score> scores)
+    {
+        return scores.Where(s => s.user_id == this.id).Min(s => s.score);
+    }
+
+    public float CaculateAverageAccuracy(List<Score> scores)
+    {
+        float averageAccuracy = 0;
+        int scoreCount = 0;
+
+        foreach (var score in scores.Where(s => s.user_id == this.id))
+        {
+            averageAccuracy += score.accuracy;
+            scoreCount++;
+        }
+
+        return averageAccuracy / scoreCount;
+    }
+
+    public float GetHighestAccuracy(List<Score> scores)
+    {
+        return scores.Where(s => s.user_id == this.id).Max(s => s.accuracy);
+    }
+
+    public float GetLowestAccuracy(List<Score> scores)
+    {
+        return scores.Where(s => s.user_id == this.id).Min(s => s.accuracy);
+    }
+}
