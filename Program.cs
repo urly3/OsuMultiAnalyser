@@ -34,9 +34,13 @@ class Program {
         foreach (var user in lobby.users)
         {
             Console.WriteLine(user.username);
+            Console.WriteLine("maps played:\t" + user.MapsPlayed.ToString());
             Console.WriteLine("avg score:\t" + user.AverageScore.ToString("n0"));
             Console.WriteLine("avg acc:\t" + user.AverageAccuracy.ToString("f2") + '%');
-            Console.WriteLine("maps played:\t" + user.MapsPlayed.ToString());
+            Console.WriteLine("highest score: " + user.HighestScore.ToString("n0"));
+            Console.WriteLine("lowest score: " + user.LowestScore.ToString("n0"));
+            Console.WriteLine("highest accuracy: " + user.HighestAccuracy.ToString("f2") + '%');
+            Console.WriteLine("lowest accuracy: " + user.LowestAccuracy.ToString("f2") + '%');
             Console.Write('\n');
         }
 
