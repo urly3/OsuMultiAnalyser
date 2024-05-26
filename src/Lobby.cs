@@ -12,14 +12,16 @@ public class Lobby {
 
     public List<Event> AbandonedGames { get; set; } = new();
     public List<Event> CompletedGames { get; set; } = new();
+    public List<Event> ExtraGames { get; set; } = new();
     public string WinningTeam { get; set; } = "";
     public int RedWins { get; set; } = 0;
     public int BlueWins { get; set; } = 0;
+    int BestOf { get; set; }
 
     public (long, int) HighestAverageScore { get; set; } = (0, 0);
     public (long, float) HighestAverageAccuracy { get; set; } = (0, 0);
 
-    public static Lobby Parse(int id) {
+    public static Lobby Parse(int id, int bestOf = 0) {
         string multi_link = @"https://osu.ppy.sh/community/matches/";
         string base_uri = multi_link + id.ToString();
 
@@ -34,8 +36,13 @@ public class Lobby {
 
             string json = response.Content.ReadAsStringAsync().Result;
             var lobby = System.Text.Json.JsonSerializer.Deserialize<Lobby>(json) ?? throw new Exception("failed to deserialise");
+
             _ = lobby.events ?? throw new Exception("no events");
             _ = lobby.users ?? throw new Exception("no users");
+
+            if (bestOf != 0) {
+                lobby.BestOf = bestOf;
+            }
 
             var lobbyFirstEventIdSaved = lobby.events[0].id ?? throw new NullReferenceException();
             var lobbyFirstEventId = lobby.events[0].id ?? throw new NullReferenceException();
@@ -60,7 +67,7 @@ public class Lobby {
                     }
                 }
 
-                lobbyFirstEventId = newLobby.events[0].id ?? throw new Exception("null or something");
+                lobbyFirstEventId = newLobby.events[0].id ?? throw new Exception("null event list or something");
             }
 
             foreach (var gameEvent in lobby.events.Where(e => e.game != null)) {
@@ -74,6 +81,15 @@ public class Lobby {
         }
     }
 
+    public static string GenerateAdditionalQueryString(long event_id) {
+        return @"?before=" + event_id.ToString() + @"&limit=100";
+    }
+
+    public void Go() {
+        this.CalculateStats();
+        this.RenderLobby();
+    }
+
     public void CalculateStats() {
         GetWinningTeam();
         GetPlayerStats();
@@ -81,13 +97,12 @@ public class Lobby {
         GetHighestAverageAccuracy();
     }
 
-    public static string GenerateAdditionalQueryString(long event_id) {
-        return @"?before=" + event_id.ToString() + @"&limit=100";
-    }
-
     public void GetWinningTeam() {
-        foreach (var gameEvent in this.events?.Where(e => e.game != null) ?? Enumerable.Empty<Event>()) {
-            if (gameEvent.game?.scores?.Count == 0) continue;
+        foreach (var gameEvent in this.CompletedGames) {
+            if (this.BestOf != 0 && (this.RedWins >= (this.BestOf + 1) / 2 || this.BlueWins >= (this.BestOf + 1) / 2)) {
+                this.ExtraGames.Add(gameEvent);
+                continue;
+            }
 
             // sum up the scores of each map and increment winner.
             long redTotalScore = 0;
@@ -104,6 +119,10 @@ public class Lobby {
         }
 
         _ = this.RedWins > this.BlueWins ? this.WinningTeam = "red" : this.WinningTeam = "blue";
+
+        foreach (var extraGame in this.ExtraGames) {
+            this.CompletedGames.Remove(extraGame);
+        }
     }
 
     public void GetPlayerStats() {
@@ -123,10 +142,15 @@ public class Lobby {
         var baScore = baUser?.AverageScore ?? 0;
         HighestAverageScore = (baId, baScore);
     }
+
     public void GetHighestAverageAccuracy() {
         var baUser = this.users?.MaxBy(u => u.AverageAccuracy);
         var baId = baUser?.id ?? 0;
         var baAccuracy = baUser?.AverageAccuracy ?? 0;
         HighestAverageAccuracy = (baId, baAccuracy);
+    }
+
+    public void RenderLobby() {
+
     }
 }

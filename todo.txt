@@ -1,0 +1,19 @@
+/// todo /// 
+
+nice output.
+
+match cost / impact.
+
+match stats end result database with sqlite?
+
+/// maybe-do //
+
+(if going to support older lobbies, warmup count to ignore them).
+ - at the moment they count as real maps and will cut it short.
+
+/// done /// 
+
+merging data into a single lobby from multiple requests to the multi link(s) 'api'.
+handling aborted games.
+getting player stats - averages, highest, lowest etc.
+best of param so extra maps are not accounted for (if it's a tourney) e.g. tb played for show.
