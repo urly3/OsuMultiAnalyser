@@ -13,15 +13,17 @@ public class Lobby {
     public List<Event> AbandonedGames { get; set; } = new();
     public List<Event> CompletedGames { get; set; } = new();
     public List<Event> ExtraGames { get; set; } = new();
+    public List<Event> WarmupGames { get; set; } = new();
     public string WinningTeam { get; set; } = "";
     public int RedWins { get; set; } = 0;
     public int BlueWins { get; set; } = 0;
-    int BestOf { get; set; }
+    int BestOf { get; set; } = 0;
+    int Warmups { get; set; } = 0;
 
     public (long, int) HighestAverageScore { get; set; } = (0, 0);
     public (long, float) HighestAverageAccuracy { get; set; } = (0, 0);
 
-    public static Lobby Parse(int id, int bestOf = 0) {
+    public static Lobby Parse(int id, int bestOf = 0, int warmups = 0) {
         string multi_link = @"https://osu.ppy.sh/community/matches/";
         string base_uri = multi_link + id.ToString();
 
@@ -42,6 +44,10 @@ public class Lobby {
 
             if (bestOf != 0) {
                 lobby.BestOf = bestOf;
+            }
+
+            if (warmups != 0) {
+                lobby.Warmups = warmups;
             }
 
             var lobbyFirstEventIdSaved = lobby.events[0].id ?? throw new NullReferenceException();
@@ -99,6 +105,12 @@ public class Lobby {
 
     public void GetWinningTeam() {
         foreach (var gameEvent in this.CompletedGames) {
+            if (this.Warmups > 0) {
+                this.WarmupGames.Add(gameEvent);
+                --this.Warmups;
+                continue;
+            }
+
             if (this.BestOf != 0 && (this.RedWins >= (this.BestOf + 1) / 2 || this.BlueWins >= (this.BestOf + 1) / 2)) {
                 this.ExtraGames.Add(gameEvent);
                 continue;
@@ -122,6 +134,9 @@ public class Lobby {
 
         foreach (var extraGame in this.ExtraGames) {
             this.CompletedGames.Remove(extraGame);
+        }
+        foreach (var warmupGame in this.WarmupGames) {
+            this.CompletedGames.Remove(warmupGame);
         }
     }
 
