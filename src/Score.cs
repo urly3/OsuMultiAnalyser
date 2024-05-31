@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class Score {
+public class Score
+{
     public float accuracy { get; set; }
     public object? best_id { get; set; }
     public DateTime created_at { get; set; }

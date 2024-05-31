@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class Game {
+public class Game
+{
     public long beatmap_id { get; set; }
     public long id { get; set; }
     public DateTime? start_time { get; set; }

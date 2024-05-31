@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class User {
+public class User
+{
     public string? avatar_url { get; set; }
     public string? country_code { get; set; }
     public string? default_group { get; set; }
@@ -29,14 +30,16 @@ public class User {
     public float HighestAccuracy { get; set; } = 0;
     public float LowestAccuracy { get; set; } = 0;
 
-    public void CalculateAverageScore(List<Event> gameEvents) {
+    public void CalculateAverageScore(List<Event> gameEvents)
+    {
         int averageScore = 0;
         int scoreCount = 0;
 
         foreach (var scores in gameEvents.
             Where(ge => ge.game?.scores?
                 .Exists(s => s.user_id == this.id) ?? false)
-            .Select(ge => ge.game?.scores)) {
+            .Select(ge => ge.game?.scores))
+        {
 
             averageScore += scores?.First(s => s.user_id == this.id).score ?? 0;
             ++scoreCount;
@@ -48,7 +51,8 @@ public class User {
         MapsPlayed = scoreCount;
     }
 
-    public void GetHighestScore(List<Event> gameEvents) {
+    public void GetHighestScore(List<Event> gameEvents)
+    {
         this.HighestScore = gameEvents
             .Where(ge => ge.game?.scores?
                 .Exists(s => s.user_id == this.id) ?? false)
@@ -57,7 +61,8 @@ public class User {
         ?? 0;
     }
 
-    public void GetLowestScore(List<Event> gameEvents) {
+    public void GetLowestScore(List<Event> gameEvents)
+    {
         this.LowestScore = gameEvents
             .Where(ge => ge.game?.scores?
                 .Exists(s => s.user_id == this.id) ?? false)
@@ -66,14 +71,16 @@ public class User {
         ?? 0;
     }
 
-    public void CalculateAverageAccuracy(List<Event> gameEvents) {
+    public void CalculateAverageAccuracy(List<Event> gameEvents)
+    {
         float averageAccuracy = 0;
         int scoreCount = 0;
 
         foreach (var scores in gameEvents
             .Where(ge => ge.game?.scores?
                 .Exists(s => s.user_id == this.id) ?? false)
-            .Select(ge => ge.game?.scores)) {
+            .Select(ge => ge.game?.scores))
+        {
 
             averageAccuracy += scores?.First(s => s.user_id == this.id).accuracy ?? 0;
             ++scoreCount;
@@ -85,8 +92,9 @@ public class User {
         MapsPlayed = scoreCount;
     }
 
-    public void GetHighestAccuracy(List<Event> gameEvents) {
-        this.HighestAccuracy= (float)Math.Round(gameEvents
+    public void GetHighestAccuracy(List<Event> gameEvents)
+    {
+        this.HighestAccuracy = (float)Math.Round(gameEvents
             .Where(ge => ge.game?.scores?
                 .Exists(s => s.user_id == this.id) ?? false)
             .Select(ge => ge.game?.scores)
@@ -95,7 +103,8 @@ public class User {
         );
     }
 
-    public void GetLowestAccuracy(List<Event> gameEvents) {
+    public void GetLowestAccuracy(List<Event> gameEvents)
+    {
         this.LowestAccuracy = (float)Math.Round(gameEvents
             .Where(ge => ge.game?.scores?
                 .Exists(s => s.user_id == this.id) ?? false)

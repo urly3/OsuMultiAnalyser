@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class Beatmapset {
+public class Beatmapset
+{
     public string? artist { get; set; }
     public string? artist_unicode { get; set; }
     public Covers? covers { get; set; }

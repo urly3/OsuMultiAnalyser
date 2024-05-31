@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class Match {
+public class Match
+{
     public long id { get; set; }
     public DateTime start_time { get; set; }
     public DateTime end_time { get; set; }

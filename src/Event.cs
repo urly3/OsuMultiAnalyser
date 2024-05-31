@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class Event {
+public class Event
+{
     public long? id { get; set; }
     public Detail? detail { get; set; }
     public DateTime timestamp { get; set; }

@@ -1,6 +1,7 @@
 namespace OsuMultiAnalyser;
 
-public class Beatmap {
+public class Beatmap
+{
     public long beatmapset_id { get; set; }
     public float difficulty_rating { get; set; }
     public long id { get; set; }

@@ -2,7 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace OsuMultiAnalyser;
 
-public class Covers {
+public class Covers
+{
     public string? cover { get; set; }
 
     [JsonPropertyName("cover@2x")]
