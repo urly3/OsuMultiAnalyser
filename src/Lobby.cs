@@ -88,6 +88,8 @@ public class Lobby
 
             foreach (var gameEvent in lobby.events.Where(e => e.game != null))
             {
+                if (gameEvent?.game?.team_type != "team-vs")
+                    throw new Exception("not team vs.");
                 if (gameEvent?.game?.scores?.Count == 0)
                     lobby.AbandonedGames.Add(gameEvent);
                 else
