@@ -24,7 +24,7 @@ public class Lobby
     public (long, int) HighestAverageScore { get; set; } = (0, 0);
     public (long, float) HighestAverageAccuracy { get; set; } = (0, 0);
 
-    public static Lobby Parse(int id, int bestOf = 0, int warmups = 0)
+    public static Lobby Parse(long id, int bestOf = 0, int warmups = 0)
     {
         string multi_link = @"https://osu.ppy.sh/community/matches/";
         string base_uri = multi_link + id.ToString();
