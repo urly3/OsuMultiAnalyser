@@ -49,7 +49,7 @@ public class Manager
 
     public bool MainMenu()
     {
-        bool shouldClose = false;
+        bool dontClose = true;
 
         try
         {
@@ -76,6 +76,6 @@ public class Manager
             Console.WriteLine("invalid argument");
         }
 
-        return shouldClose ? false : true;
+        return dontClose;
     }
 }
