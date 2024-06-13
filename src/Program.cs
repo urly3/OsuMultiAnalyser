@@ -19,7 +19,8 @@ class Program
             }
         }
 
-        var lobby = Lobby.Parse(111534249, bestOf, warmups);
-        lobby.Go();
+        var manager = new Manager();
+        manager.Run();
+        manager.Close();
     }
 }
