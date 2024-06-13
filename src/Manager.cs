@@ -26,21 +26,9 @@ public class Manager
         }
     }
 
-    public bool AddLobbyMenu()
-    {
-        bool shouldClose = false;
-        return shouldClose ? false : true;
-    }
-
     public void RemoveLobby(long id)
     {
         Lobbies.Remove(id);
-    }
-
-    public bool RemoveLobbyMenu()
-    {
-        bool shouldClose = false;
-        return shouldClose ? false : true;
     }
 
     public void Run()
@@ -50,7 +38,7 @@ public class Manager
 
     public void Close()
     {
-        
+
     }
 
     public void Menu()
@@ -77,21 +65,79 @@ public class Manager
 
             switch (option)
             {
-                case MenuOption.First: return dontClose;
+                case MenuOption.First: { AddMenu(); break; }
                 case MenuOption.Second: return dontClose;
                 case MenuOption.Third: return dontClose;
-                case MenuOption.Zero: { dontClose = false; return dontClose; }
+                case MenuOption.Zero: { dontClose = false; break; }
                 default: return true;
             }
         }
         catch
         {
-            Console.Clear();
-            Console.WriteLine("invalid argument");
-            Thread.Sleep(2000);
-            Console.Clear();
+            InvalidArgument();
         }
 
         return dontClose;
+    }
+
+    public void AddMenu()
+    {
+        Console.Clear();
+        long lobbyId;
+
+        Console.Write("enter lobby id: ");
+        var input = Console.ReadLine();
+
+        try
+        {
+            lobbyId = Int64.Parse(input!);
+        }
+        catch
+        {
+            InvalidArgument();
+            return;
+        }
+
+        try
+        {
+            AddLobby(lobbyId);
+        }
+        catch
+        {
+            InvalidArgument();
+        }
+
+        return;
+    }
+
+    public void RemoveMenu()
+    {
+        Console.Clear();
+        long lobbyId;
+
+        Console.Write("enter lobby id: ");
+        var input = Console.ReadLine();
+
+        try
+        {
+            lobbyId = Int64.Parse(input!);
+        }
+        catch
+        {
+            InvalidArgument();
+            return;
+        }
+
+        RemoveLobby(lobbyId);
+
+        return;
+    }
+
+    static void InvalidArgument()
+    {
+        Console.Clear();
+        Console.WriteLine("invalid argument");
+        Thread.Sleep(500);
+        Console.Clear();
     }
 }
