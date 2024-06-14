@@ -19,6 +19,7 @@ public class Manager
         try
         {
             Lobbies.Add(id, Lobby.Parse(id));
+            Lobbies.GetValueOrDefault(id)?.Go();
         }
         catch
         {
@@ -34,6 +35,31 @@ public class Manager
     public void Run()
     {
         Menu();
+    }
+
+    public void ViewLobby(long id)
+    {
+        Lobby lobby = this.Lobbies.GetValueOrDefault(id)!;
+        Console.WriteLine("score: ");
+        Console.WriteLine(lobby.BlueWins.ToString() + " - " + lobby.RedWins.ToString());
+        Console.WriteLine(lobby.WinningTeam + " wins");
+        Console.WriteLine("averages: ");
+        Console.WriteLine("highest average score: " +
+            lobby.users?.Where(u => u.id == lobby.HighestAverageScore.Item1).First().username +
+            " - " +
+            lobby.HighestAverageScore.Item2.ToString());
+        Console.WriteLine("highest average acc: " +
+            lobby.users?.Where(u => u.id == lobby.HighestAverageAccuracy.Item1).First().username +
+            " - " +
+            lobby.HighestAverageAccuracy.Item2.ToString());
+
+        Console.WriteLine();
+        Console.WriteLine("press q to exit");
+
+        while (Console.ReadKey(true).KeyChar != 'q')
+        {
+
+        }
     }
 
     public void Close()
@@ -57,18 +83,27 @@ public class Manager
             Console.WriteLine("1 - add a lobby");
             Console.WriteLine("2 - remove a lobby");
             Console.WriteLine("3 - view a lobby");
-            Console.WriteLine("0 - exit menu");
+            Console.WriteLine("q - exit menu");
 
-            string input = Console.ReadKey(true).KeyChar.ToString();
-            int optionInt = int.Parse(input);
+            char input = Console.ReadKey(true).KeyChar;
 
-            MenuOption option = (MenuOption)optionInt;
+            MenuOption option;
+            if (input == 'q')
+            {
+                option = MenuOption.Zero;
+            }
+            else
+            {
+                int optionInt = int.Parse(input.ToString());
+                option = (MenuOption)optionInt;
+            }
+
 
             switch (option)
             {
                 case MenuOption.First: { AddMenu(); break; }
                 case MenuOption.Second: { RemoveMenu(); break; }
-                case MenuOption.Third: return dontClose;
+                case MenuOption.Third: { ViewMenu(); break; }
                 case MenuOption.Zero: { dontClose = false; break; }
                 default: { throw new Exception(); }
             }
@@ -132,6 +167,31 @@ public class Manager
         }
 
         RemoveLobby(lobbyId);
+
+        return;
+    }
+
+    public void ViewMenu()
+    {
+        Console.Clear();
+        long lobbyId;
+
+        PrintLobbies();
+
+        Console.Write("enter lobby id: ");
+        var input = Console.ReadLine();
+
+        try
+        {
+            lobbyId = Int64.Parse(input!);
+        }
+        catch
+        {
+            InvalidArgument("non-integer.");
+            return;
+        }
+
+        ViewLobby(lobbyId);
 
         return;
     }
