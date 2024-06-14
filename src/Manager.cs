@@ -52,6 +52,7 @@ public class Manager
 
         try
         {
+            Console.Clear();
             Console.WriteLine("please choose an option: ");
             Console.WriteLine("1 - add a lobby");
             Console.WriteLine("2 - remove a lobby");
@@ -66,15 +67,15 @@ public class Manager
             switch (option)
             {
                 case MenuOption.First: { AddMenu(); break; }
-                case MenuOption.Second: return dontClose;
+                case MenuOption.Second: { RemoveMenu(); break; }
                 case MenuOption.Third: return dontClose;
                 case MenuOption.Zero: { dontClose = false; break; }
-                default: return true;
+                default: { throw new Exception(); }
             }
         }
         catch
         {
-            InvalidArgument();
+            InvalidArgument("invalid option");
         }
 
         return dontClose;
@@ -94,7 +95,7 @@ public class Manager
         }
         catch
         {
-            InvalidArgument();
+            InvalidArgument("non-integer.");
             return;
         }
 
@@ -104,7 +105,7 @@ public class Manager
         }
         catch
         {
-            InvalidArgument();
+            InvalidArgument("invalid lobby id");
         }
 
         return;
@@ -115,6 +116,8 @@ public class Manager
         Console.Clear();
         long lobbyId;
 
+        PrintLobbies();
+
         Console.Write("enter lobby id: ");
         var input = Console.ReadLine();
 
@@ -124,7 +127,7 @@ public class Manager
         }
         catch
         {
-            InvalidArgument();
+            InvalidArgument("non-integer.");
             return;
         }
 
@@ -133,11 +136,22 @@ public class Manager
         return;
     }
 
-    static void InvalidArgument()
+    static void InvalidArgument(string arg)
     {
         Console.Clear();
-        Console.WriteLine("invalid argument");
+        Console.WriteLine(arg);
         Thread.Sleep(500);
         Console.Clear();
+    }
+
+    public void PrintLobbies()
+    {
+        int i = 1;
+        foreach (var lobby in this.Lobbies)
+        {
+            Console.Write(i.ToString() + ".\tid: ");
+            Console.WriteLine(lobby.Key);
+            Console.WriteLine();
+        }
     }
 }
