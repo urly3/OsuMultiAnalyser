@@ -1,6 +1,6 @@
 namespace OsuMultiAnalyser;
 
-public class Manager
+class CliLobbyManager : iLobbyManager
 {
     enum MenuOption
     {
@@ -12,7 +12,7 @@ public class Manager
         Fifth = 5,
     }
 
-    public Dictionary<long, Lobby> Lobbies { get; set; } = new();
+    public Dictionary<long, Lobby> Lobbies { get; set; }
 
     public void AddLobby(long id)
     {
@@ -34,7 +34,6 @@ public class Manager
 
     public void Run()
     {
-        Menu();
     }
 
     public void ViewLobby(long id)
@@ -214,4 +213,5 @@ public class Manager
             Console.WriteLine();
         }
     }
+    
 }
