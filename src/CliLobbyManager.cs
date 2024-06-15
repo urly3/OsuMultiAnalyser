@@ -2,17 +2,15 @@ namespace OsuMultiAnalyser;
 
 class CliLobbyManager : iLobbyManager
 {
+    public Dictionary<long, Lobby> Lobbies { get; set; }
+
     enum MenuOption
     {
         Zero = 0,
         First = 1,
         Second = 2,
         Third = 3,
-        Fourth = 4,
-        Fifth = 5,
     }
-
-    public Dictionary<long, Lobby> Lobbies { get; set; }
 
     public void AddLobby(long id)
     {
@@ -30,10 +28,6 @@ class CliLobbyManager : iLobbyManager
     public void RemoveLobby(long id)
     {
         Lobbies.Remove(id);
-    }
-
-    public void Run()
-    {
     }
 
     public void ViewLobby(long id)
@@ -55,15 +49,7 @@ class CliLobbyManager : iLobbyManager
         Console.WriteLine();
         Console.WriteLine("press q to exit");
 
-        while (Console.ReadKey(true).KeyChar != 'q')
-        {
-
-        }
-    }
-
-    public void Close()
-    {
-
+        while (Console.ReadKey(true).KeyChar != 'q') { }
     }
 
     public void Menu()
@@ -87,6 +73,7 @@ class CliLobbyManager : iLobbyManager
             char input = Console.ReadKey(true).KeyChar;
 
             MenuOption option;
+
             if (input == 'q')
             {
                 option = MenuOption.Zero;
@@ -94,9 +81,8 @@ class CliLobbyManager : iLobbyManager
             else
             {
                 int optionInt = int.Parse(input.ToString());
-                option = (MenuOption)optionInt;
+                option = Enum.Parse<MenuOption>(optionInt.ToString());
             }
-
 
             switch (option)
             {
@@ -195,7 +181,7 @@ class CliLobbyManager : iLobbyManager
         return;
     }
 
-    static void InvalidArgument(string arg)
+    public void InvalidArgument(string arg)
     {
         Console.Clear();
         Console.WriteLine(arg);
@@ -213,5 +199,5 @@ class CliLobbyManager : iLobbyManager
             Console.WriteLine();
         }
     }
-    
+
 }

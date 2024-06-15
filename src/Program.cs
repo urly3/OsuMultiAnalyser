@@ -19,8 +19,7 @@ class Program
             }
         }
 
-        var manager = new Manager();
-        manager.Run();
-        manager.Close();
+        var manager = new CliLobbyManager();
+        manager.Menu();
     }
 }
