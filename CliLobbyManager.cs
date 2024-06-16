@@ -1,8 +1,8 @@
 namespace OsuMultiAnalyser;
 
-class CliLobbyManager : iLobbyManager
+class CliLobbyManager
 {
-    public Dictionary<long, Lobby> Lobbies { get; set; }
+    public Dictionary<long, Lobby> Lobbies { get; set; } = new();
 
     enum MenuOption
     {

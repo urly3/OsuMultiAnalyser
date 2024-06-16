@@ -19,7 +19,6 @@ class Program
             }
         }
 
-        var manager = new CliLobbyManager();
-        manager.Menu();
+        var manager = new MvcLobbyManager(new string[0]);
     }
 }
