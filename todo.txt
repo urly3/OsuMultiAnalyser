@@ -1,15 +1,18 @@
 /// todo /// 
 
-nice output.
-
+best of and warmup count to add lobby page.
+allow adding of multiple lobbies.
+remove lobby page
+ - allow removing of multiple lobbies.
+match detail view.
 match cost / impact.
-
-match stats end result database with sqlite?
+make own auth with cookies and stuff - learning exp.
+ - only has to be simple: hash, session uuid.
 
 /// maybe-do //
 
-(if going to support older lobbies, warmup count to ignore them).
- - at the moment they count as real maps and will cut it short.
+match stats end result database with sqlite?
+ - allows persistent store and quicker.
 
 /// done /// 
 
@@ -17,3 +20,5 @@ merging data into a single lobby from multiple requests to the multi link(s) 'ap
 handling aborted games.
 getting player stats - averages, highest, lowest etc.
 best of param so extra maps are not accounted for (if it's a tourney) e.g. tb played for show.
+(if going to support older lobbies, warmup count to ignore them).
+ - at the moment they count as real maps and will cut it short.
