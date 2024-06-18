@@ -9,7 +9,9 @@
     {
         foreach(var lobby in Model)
         {
-            <h3> @lobby.Value.match?.name </h3>
+            <a href="/@lobby.Key">
+                <h3> @lobby.Value.match?.name </h3>
+            </a>
         }
     }
 </div>
