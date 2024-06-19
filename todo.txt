@@ -2,23 +2,24 @@
 
 best of and warmup count to add lobby page.
 allow adding of multiple lobbies.
-remove lobby page
  - allow removing of multiple lobbies.
-match detail view.
-match cost / impact.
-make own auth with cookies and stuff - learning exp.
+match cost / impact (can just copy some other implementation of the math for now).
+make own auth with cookies and stuff as a learning exp.
  - only has to be simple: hash, session uuid.
+ - do it via a middleware? would be cool to know how it works.
 
 /// maybe-do //
 
 match stats end result database with sqlite?
- - allows persistent store and quicker.
+- can then persist state, would be nicer for when auth is done.
 
 /// done /// 
 
-merging data into a single lobby from multiple requests to the multi link(s) 'api'.
-handling aborted games.
+match detail view.
+remove lobby page
 getting player stats - averages, highest, lowest etc.
+handling aborted games.
 best of param so extra maps are not accounted for (if it's a tourney) e.g. tb played for show.
 (if going to support older lobbies, warmup count to ignore them).
  - at the moment they count as real maps and will cut it short.
+merging data into a single lobby from multiple requests to the multi link(s) 'api'.

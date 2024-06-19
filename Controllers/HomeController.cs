@@ -16,25 +16,67 @@ public class HomeController : Controller
         _lobbyService = lobbyService;
     }
 
+    [Route("/")]
     public IActionResult Index()
     {
         return View(_lobbyService.Lobbies);
     }
 
+    [Route("/{id}")]
+    public IActionResult ViewLobby(long? id)
+    {
+        if (id == null)
+        {
+            return Redirect("/");
+        }
+
+        if (!_lobbyService.Lobbies.ContainsKey(id.Value))
+        {
+            return NotFound("lobby " + id.Value.ToString() + " not found.");
+        }
+
+        return View(_lobbyService.Lobbies[id.Value]);
+    }
+
+    [Route("/addlobby")]
     public IActionResult AddLobby()
     {
         if (this.Request.Method == "POST")
         {
-            long id = long.Parse(this.Request.Form["LobbyIds"]!);
-            _lobbyService.AddLobby(id);
+            try
+            {
+                long id = long.Parse(this.Request.Form["LobbyIds"]!);
+                _lobbyService.AddLobby(id);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("bad request\n" + e);
+            }
+
             return Redirect("/");
         }
 
         return View();
     }
 
+    [Route("/removelobby")]
     public IActionResult RemoveLobby()
     {
+        if (Request.Method == "POST")
+        {
+            try
+            {
+                long id = long.Parse(this.Request.Form["LobbyIds"]!);
+                _lobbyService.RemoveLobby(id);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("bad request\n" + e);
+            }
+
+            return Redirect("/");
+        }
+
         return View();
     }
 

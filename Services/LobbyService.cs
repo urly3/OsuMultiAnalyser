@@ -8,16 +8,21 @@ public class LobbyService
     {
         var lobby = Lobby.Parse(id);
         lobby.Go();
-
         Lobbies.Add(id, lobby);
     }
 
-    public void RemoveLobby(long id) { }
+    public void RemoveLobby(long id)
+    {
+        this.Lobbies.Remove(id);
+    }
 
     public LobbyService()
     {
         var lobby = Lobby.Parse(111534249);
         lobby.Go();
         Lobbies.Add(111534249, lobby);
+        lobby = Lobby.Parse(111253985);
+        lobby.Go();
+        Lobbies.Add(111253985, lobby);
     }
 }

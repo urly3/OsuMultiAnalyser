@@ -37,7 +37,7 @@ public class Lobby
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception("not ok");
+                throw new Exception("not ok response: lobby likely not found");
             }
 
             string json = response.Content.ReadAsStringAsync().Result;
@@ -66,7 +66,7 @@ public class Lobby
                 var newReponse = client.Send(newRequest);
                 if (newReponse.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception("not ok");
+                    throw new Exception("not ok response: lobby likely not found");
                 }
 
                 var newJson = newReponse.Content.ReadAsStringAsync().Result;
@@ -166,7 +166,7 @@ public class Lobby
 
     public void GetPlayerStats()
     {
-        foreach (var user in users ?? Enumerable.Empty<User>())
+        foreach (var user in this.users ?? Enumerable.Empty<User>())
         {
             user.CalculateAverageScore(this.CompletedGames);
             user.CalculateAverageAccuracy(this.CompletedGames);
@@ -174,23 +174,24 @@ public class Lobby
             user.GetHighestAccuracy(this.CompletedGames);
             user.GetLowestScore(this.CompletedGames);
             user.GetLowestAccuracy(this.CompletedGames);
+            user.GetTeam(this.CompletedGames);
         }
     }
 
     public void GetHighestAverageScore()
     {
-        var baUser = this.users?.MaxBy(u => u.AverageScore);
-        var baId = baUser?.id ?? 0;
-        var baScore = baUser?.AverageScore ?? 0;
-        HighestAverageScore = (baId, baScore);
+        var haUser = this.users?.MaxBy(u => u.AverageScore);
+        var haId = haUser?.id ?? 0;
+        var haScore = haUser?.AverageScore ?? 0;
+        HighestAverageScore = (haId, haScore);
     }
 
     public void GetHighestAverageAccuracy()
     {
-        var baUser = this.users?.MaxBy(u => u.AverageAccuracy);
-        var baId = baUser?.id ?? 0;
-        var baAccuracy = baUser?.AverageAccuracy ?? 0;
-        HighestAverageAccuracy = (baId, baAccuracy);
+        var haUser = this.users?.MaxBy(u => u.AverageAccuracy);
+        var haId = haUser?.id ?? 0;
+        var haAccuracy = haUser?.AverageAccuracy ?? 0;
+        HighestAverageAccuracy = (haId, haAccuracy);
     }
 
     public void RenderLobby()

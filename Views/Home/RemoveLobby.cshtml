@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "remove lobby";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>remove a lobby, this is the get page</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RemoveLobby" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="control-label"> ids </label>
+                <input name="LobbyIds" class="form-control" type="number" />
+            </div>
+        </form>
+    </div>
+</div>

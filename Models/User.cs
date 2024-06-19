@@ -16,6 +16,7 @@ public class User
     public object? profile_colour { get; set; }
     public string? username { get; set; }
     public Country? country { get; set; }
+    public string Team { get; set; } = "n/a";
 
     // TODO:
     // come up with a representation of cost / impact.
@@ -112,5 +113,17 @@ public class User
             .Min(s => s?.Where(s => s.user_id == this.id).Min(s => s?.accuracy)) * 100
             ?? 0.0f, 2
         );
+    }
+
+    public void GetTeam(List<Event> gameEvents)
+    {
+        this.Team = gameEvents
+            .Where(ge => ge.game?.scores?
+                .Exists(s => s.user_id == this.id) ?? false)
+            .Select(ge => ge.game?.scores?
+                .Where(s => s.user_id == this.id)
+                .FirstOrDefault())
+            .FirstOrDefault()?.match?.team
+            ?? "n/a";
     }
 }
