@@ -7,7 +7,6 @@ class Program
         int bestOf = 0;
         int warmups = 0;
 
-
         if (args.Length > 0)
         {
             bestOf = int.Parse(args[0]);
