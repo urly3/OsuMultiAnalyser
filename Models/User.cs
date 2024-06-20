@@ -16,11 +16,9 @@ public class User
     public object? profile_colour { get; set; }
     public string? username { get; set; }
     public Country? country { get; set; }
-    public string Team { get; set; } = "n/a";
 
-    // TODO:
-    // come up with a representation of cost / impact.
-    public int Impact { get; set; } = 0;
+    public float MatchCost { get; set; } = 0.0f;
+    public string Team { get; set; } = "n/a";
 
     public int AverageScore { get; set; } = 0;
     public int HighestScore { get; set; } = 0;
@@ -91,6 +89,33 @@ public class User
 
         AverageAccuracy = (float)Math.Round((averageAccuracy / scoreCount) * 100, 2);
         MapsPlayed = scoreCount;
+    }
+
+    public void GetMatchCost(List<Event> gameEvents)
+    {
+        List<Score> scoresSet = gameEvents
+            .Where(ge => ge.game?.scores?
+                .Exists(s => s.user_id == this.id) ?? false)
+            .SelectMany(ge => ge.game?.scores?
+                .Where(s => s.user_id == this.id)!)
+            .ToList()
+            ?? new List<Score>();
+
+        if (scoresSet.Count == 0)
+        {
+            this.MatchCost = 0.0f;
+            return;
+        }
+
+        float matchAvg = 0.0f;
+
+        foreach(var score in scoresSet)
+        {
+            score.score / matchAvg
+        }
+        float cost = 2.0f / (scoresSet.Count + 2);
+
+        cost *= 
     }
 
     public void GetHighestAccuracy(List<Event> gameEvents)

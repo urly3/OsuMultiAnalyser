@@ -178,6 +178,17 @@ public class Lobby
         }
     }
 
+    public void GetAverageScorePerGame()
+    {
+        float blueAverage = 0.0f;
+        float redAverage = 0.0f;
+
+        foreach(var gameEvent in this.CompletedGames)
+        {
+            
+        }
+    }
+
     public void GetHighestAverageScore()
     {
         var haUser = this.users?.MaxBy(u => u.AverageScore);
