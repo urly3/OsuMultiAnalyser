@@ -108,12 +108,13 @@ public class Lobby
     public void Go()
     {
         this.CalculateStats();
-        this.RenderLobby();
     }
 
     public void CalculateStats()
     {
         GetWinningTeam();
+        GetPlayerTeams();
+        GetAverageScoreForEachGame();
         GetPlayerStats();
         GetHighestAverageScore();
         GetHighestAverageAccuracy();
@@ -164,6 +165,13 @@ public class Lobby
         }
     }
 
+    public void GetPlayerTeams()
+    {
+        foreach (var user in this.users ?? Enumerable.Empty<User>())
+        {
+            user.GetTeam(this.CompletedGames);
+        }
+    }
     public void GetPlayerStats()
     {
         foreach (var user in this.users ?? Enumerable.Empty<User>())
@@ -174,18 +182,44 @@ public class Lobby
             user.GetHighestAccuracy(this.CompletedGames);
             user.GetLowestScore(this.CompletedGames);
             user.GetLowestAccuracy(this.CompletedGames);
-            user.GetTeam(this.CompletedGames);
+            user.GetMatchCosts(this.CompletedGames);
         }
     }
 
-    public void GetAverageScorePerGame()
+    public void GetAverageScoreForEachGame()
     {
-        float blueAverage = 0.0f;
-        float redAverage = 0.0f;
 
-        foreach(var gameEvent in this.CompletedGames)
+        foreach (var gameEvent in this.CompletedGames)
         {
-            
+            float averageScore = 0.0f;
+            float blueAverageScore = 0.0f;
+            int blueCount = 0;
+            float redAverageScore = 0.0f;
+            int redCount = 0;
+
+            foreach (var score in gameEvent.game?.scores!)
+            {
+                if (this.users?.Find(u => u.id == score.user_id)?.Team == "blue")
+                {
+                    blueAverageScore += score.score;
+                    ++blueCount;
+                }
+                else
+                {
+                    redAverageScore += score.score;
+                    ++redCount;
+                }
+
+                averageScore += score.score;
+            }
+
+            blueAverageScore /= blueCount;
+            redAverageScore /= redCount;
+            averageScore /= (blueCount + redCount);
+
+            gameEvent.game.BlueAverageScore = blueAverageScore;
+            gameEvent.game.RedAverageScore = redAverageScore;
+            gameEvent.game.AverageScore = averageScore;
         }
     }
 
@@ -203,10 +237,5 @@ public class Lobby
         var haId = haUser?.id ?? 0;
         var haAccuracy = haUser?.AverageAccuracy ?? 0;
         HighestAverageAccuracy = (haId, haAccuracy);
-    }
-
-    public void RenderLobby()
-    {
-
     }
 }

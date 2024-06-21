@@ -3,7 +3,6 @@
 best of and warmup count to add lobby page.
 allow adding of multiple lobbies.
  - allow removing of multiple lobbies.
-match cost / impact (can just copy some other implementation of the math for now).
 make own auth with cookies and stuff as a learning exp.
  - only has to be simple: hash, session uuid.
  - do it via a middleware? would be cool to know how it works.
@@ -15,6 +14,7 @@ match stats end result database with sqlite?
 
 /// done /// 
 
+match cost / impact (can just copy some other implementation of the math for now).
 match detail view.
 remove lobby page
 getting player stats - averages, highest, lowest etc.

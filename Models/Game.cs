@@ -14,6 +14,7 @@ public class Game
     public Beatmap? beatmap { get; set; }
     public List<Score>? scores { get; set; }
 
+    public float AverageScore { get; set; } = 0.0f;
     public float BlueAverageScore { get; set; } = 0.0f;
     public float RedAverageScore { get; set; } = 0.0f;
 }

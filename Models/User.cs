@@ -17,8 +17,9 @@ public class User
     public string? username { get; set; }
     public Country? country { get; set; }
 
+    public float MatchCostTeam { get; set; } = 0.0f;
     public float MatchCost { get; set; } = 0.0f;
-    public string Team { get; set; } = "n/a";
+    public string Team { get; set; } = "init";
 
     public int AverageScore { get; set; } = 0;
     public int HighestScore { get; set; } = 0;
@@ -91,31 +92,52 @@ public class User
         MapsPlayed = scoreCount;
     }
 
-    public void GetMatchCost(List<Event> gameEvents)
+    public void GetMatchCosts(List<Event> gameEvents)
     {
-        List<Score> scoresSet = gameEvents
-            .Where(ge => ge.game?.scores?
-                .Exists(s => s.user_id == this.id) ?? false)
-            .SelectMany(ge => ge.game?.scores?
-                .Where(s => s.user_id == this.id)!)
-            .ToList()
-            ?? new List<Score>();
+        // List<Score> scoresSet = gameEvents
+        //     .Where(ge => ge.game?.scores?
+        //         .Exists(s => s.user_id == this.id) ?? false)
+        //     .SelectMany(ge => ge.game?.scores?
+        //         .Where(s => s.user_id == this.id)!)
+        //     .ToList()
+        //     ?? new List<Score>();
 
-        if (scoresSet.Count == 0)
-        {
-            this.MatchCost = 0.0f;
-            return;
-        }
+        // if (scoresSet.Count == 0)
+        // {
+        //     this.MatchCost = 0.0f;
+        //     return;
+        // }
 
+        float matchAvgTeam = 0.0f;
         float matchAvg = 0.0f;
+        int playedCount = 0;
 
-        foreach(var score in scoresSet)
+        foreach (var gameEvent in gameEvents)
         {
-            score.score / matchAvg
-        }
-        float cost = 2.0f / (scoresSet.Count + 2);
+            Score? playerScore = gameEvent?.game?.scores?.Where(s => s.user_id == this.id).FirstOrDefault();
+            if (playerScore == null)
+            {
+                continue;
+            }
 
-        cost *= 
+            if (this.Team == "blue")
+            {
+                matchAvgTeam += playerScore.score / (float)(gameEvent?.game?.BlueAverageScore!);
+            }
+            else
+            {
+                matchAvgTeam += playerScore.score / (float)(gameEvent?.game?.RedAverageScore!);
+            }
+
+            matchAvg += playerScore.score / (float)(gameEvent?.game?.AverageScore!);
+
+            ++playedCount;
+        }
+
+        float cost = 2.0f / (playedCount + 2);
+
+        this.MatchCost = cost * matchAvg;
+        this.MatchCostTeam = cost *matchAvgTeam;
     }
 
     public void GetHighestAccuracy(List<Event> gameEvents)
