@@ -1,9 +1,5 @@
 /// todo /// 
 
-make own auth with cookies and stuff as a learning exp.
- - only has to be simple: hash, session uuid.
- - do it via a middleware? would be cool to know how it works.
-
 /// maybe-do //
 
 allow adding of multiple lobbies.
@@ -14,6 +10,9 @@ match stats end result database with sqlite?
 
 /// done /// 
 
+make own auth with cookies and stuff as a learning exp.
+ - only has to be simple: hash, --session uuid--.
+ - do it via a middleware? would be cool to know how it works.
 add other lobby data to the viewlobby page.
 - beatmaps, other stats that are captured.
 best of and warmup count to add lobby page.

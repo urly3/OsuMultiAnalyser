@@ -1,4 +1,4 @@
-namespace OsuMultiAnalyser;
+namespace OMA.Models;
 
 public class User
 {
@@ -88,7 +88,7 @@ public class User
 
         if (scoreCount == 0) return;
 
-        AverageAccuracy = (float)Math.Round((averageAccuracy / scoreCount) * 100, 2);
+        AverageAccuracy = (float)Math.Round(averageAccuracy / scoreCount * 100, 2);
         MapsPlayed = scoreCount;
     }
 
@@ -122,14 +122,13 @@ public class User
 
             if (this.Team == "blue")
             {
-                matchAvgTeam += playerScore.score / (float)(gameEvent?.game?.BlueAverageScore!);
-            }
-            else
+                matchAvgTeam += playerScore.score / (float)gameEvent?.game?.BlueAverageScore!;
+            } else
             {
-                matchAvgTeam += playerScore.score / (float)(gameEvent?.game?.RedAverageScore!);
+                matchAvgTeam += playerScore.score / (float)gameEvent?.game?.RedAverageScore!;
             }
 
-            matchAvg += playerScore.score / (float)(gameEvent?.game?.AverageScore!);
+            matchAvg += playerScore.score / (float)gameEvent?.game?.AverageScore!;
 
             ++playedCount;
         }
@@ -137,7 +136,7 @@ public class User
         float cost = 2.0f / (playedCount + 2);
 
         this.MatchCost = cost * matchAvg;
-        this.MatchCostTeam = cost *matchAvgTeam;
+        this.MatchCostTeam = cost * matchAvgTeam;
     }
 
     public void GetHighestAccuracy(List<Event> gameEvents)

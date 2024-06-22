@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "login";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="control-label"> alias </label>
+                <input name="alias" class="form-control" type="text" placeholder="alias" required />
+                <hr>
+                <input class="btn btn-primary" type="submit" value="login" />
+            </div>
+        </form>
+    </div>
+</div>

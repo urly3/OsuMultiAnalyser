@@ -1,4 +1,4 @@
-namespace OsuMultiAnalyser;
+namespace OMA;
 
 public class CurrentUserAttributes
 {

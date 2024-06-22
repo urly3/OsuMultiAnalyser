@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace OsuMultiAnalyser;
+namespace OMA.Models;
 
 public class Covers
 {

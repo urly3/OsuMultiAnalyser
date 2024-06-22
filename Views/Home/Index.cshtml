@@ -7,7 +7,7 @@
 <div class="text-center">
     @if (Model != null)
     {
-        foreach(var lobby in Model)
+        foreach (var lobby in Model)
         {
             <a href="/@lobby.Key">
                 <h3> @lobby.Value.match?.name </h3>

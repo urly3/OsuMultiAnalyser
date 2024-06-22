@@ -1,46 +1,79 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OsuMultiAnalyser.Models;
-using OsuMultiAnalyser.Services;
+using OMA.Models;
+using OMA.Services;
+using System.Diagnostics;
 
-namespace OsuMultiAnalyser;
+namespace OMA.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private LobbyService _lobbyService;
+    private OMAService _omaService;
+    private string _hash = "";
 
-    public HomeController(ILogger<HomeController> logger, LobbyService lobbyService)
+    public HomeController(ILogger<HomeController> logger, OMAService lobbyService)
     {
         _logger = logger;
-        _lobbyService = lobbyService;
+        _omaService = lobbyService;
     }
 
     [Route("/")]
     public IActionResult Index()
     {
-        return View(_lobbyService.Lobbies);
+        _hash = Request.Cookies["hash"]!;
+        return View(OMAService.UserLobbies[_hash]);
+    }
+
+
+    [Route("/login")]
+    public IActionResult Login()
+    {
+        if (Request.Method == "POST")
+        {
+            if (string.IsNullOrWhiteSpace(Request.Form["alias"]))
+            {
+                return Error();
+            }
+
+            try
+            {
+                string hash = _omaService.AddUser(Request.Form["alias"]!);
+                Response.Cookies.Append("hash", hash);
+
+            } catch
+            {
+                return Error();
+            }
+
+            return Redirect("/");
+        }
+
+        return View();
     }
 
     [Route("/{id}")]
     public IActionResult ViewLobby(long? id)
     {
+        _hash = Request.Cookies["hash"]!;
+
         if (id == null)
         {
             return Redirect("/");
         }
 
-        if (!_lobbyService.Lobbies.ContainsKey(id.Value))
+        if (!OMAService.UserLobbies[_hash].ContainsKey(id.Value))
         {
             return NotFound("lobby " + id.Value.ToString() + " not found.");
         }
 
-        return View(_lobbyService.Lobbies[id.Value]);
+        return View(OMAService.UserLobbies[_hash][id.Value]);
     }
 
     [Route("/addlobby")]
     public IActionResult AddLobby()
     {
+        _hash = Request.Cookies["hash"]!;
+
         if (this.Request.Method == "POST")
         {
             try
@@ -58,9 +91,8 @@ public class HomeController : Controller
                     warmupCount = int.Parse(this.Request.Form["WarmupCount"]!);
                 }
 
-                _lobbyService.AddLobby(id, bestOf, warmupCount);
-            }
-            catch (Exception e)
+                _omaService.AddLobby(_hash, id, bestOf, warmupCount);
+            } catch (Exception e)
             {
                 return BadRequest("bad request\n" + e);
             }
@@ -74,14 +106,15 @@ public class HomeController : Controller
     [Route("/removelobby")]
     public IActionResult RemoveLobby()
     {
+        _hash = Request.Cookies["hash"]!;
+
         if (Request.Method == "POST")
         {
             try
             {
                 long id = long.Parse(this.Request.Form["LobbyIds"]!);
-                _lobbyService.RemoveLobby(id);
-            }
-            catch (Exception e)
+                _omaService.RemoveLobby(_hash, id);
+            } catch (Exception e)
             {
                 return BadRequest("bad request\n" + e);
             }

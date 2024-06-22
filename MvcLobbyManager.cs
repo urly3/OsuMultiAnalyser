@@ -1,6 +1,6 @@
-using OsuMultiAnalyser.Services;
+using OMA.Services;
 
-namespace OsuMultiAnalyser;
+namespace OMA;
 
 class MvcLobbyManager
 {
@@ -9,7 +9,7 @@ class MvcLobbyManager
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddSingleton<LobbyService>();
+        builder.Services.AddSingleton<OMAService>();
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
@@ -23,11 +23,12 @@ class MvcLobbyManager
         }
 
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
 
-        app.UseRouting();
+        app.UseOMASimpleAuth();
 
-        app.UseAuthorization();
+        app.UseRouting();
 
         app.MapControllerRoute(
             name: "default",

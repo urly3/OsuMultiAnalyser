@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace OsuMultiAnalyser;
+namespace OMA.Models;
 
 public class Lobby
 {
@@ -107,7 +107,7 @@ public class Lobby
 
     public void Go()
     {
-        this.CalculateStats();
+        CalculateStats();
     }
 
     public void CalculateStats()
@@ -150,7 +150,7 @@ public class Lobby
                 blueTotalScore += score.score;
             }
 
-            _ = (redTotalScore > blueTotalScore) ? ++this.RedWins : ++this.BlueWins;
+            _ = redTotalScore > blueTotalScore ? ++this.RedWins : ++this.BlueWins;
         }
 
         _ = this.RedWins > this.BlueWins ? this.WinningTeam = "red" : this.WinningTeam = "blue";
@@ -203,8 +203,7 @@ public class Lobby
                 {
                     blueAverageScore += score.score;
                     ++blueCount;
-                }
-                else
+                } else
                 {
                     redAverageScore += score.score;
                     ++redCount;
@@ -215,7 +214,7 @@ public class Lobby
 
             blueAverageScore /= blueCount;
             redAverageScore /= redCount;
-            averageScore /= (blueCount + redCount);
+            averageScore /= blueCount + redCount;
 
             gameEvent.game.BlueAverageScore = blueAverageScore;
             gameEvent.game.RedAverageScore = redAverageScore;

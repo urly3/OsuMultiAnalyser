@@ -1,4 +1,4 @@
-namespace OsuMultiAnalyser.Models;
+namespace OMA.Models;
 
 public class ErrorViewModel
 {

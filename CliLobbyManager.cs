@@ -1,4 +1,6 @@
-namespace OsuMultiAnalyser;
+using OMA.Models;
+
+namespace OMA;
 
 class CliLobbyManager
 {
@@ -18,8 +20,7 @@ class CliLobbyManager
         {
             Lobbies.Add(id, Lobby.Parse(id));
             Lobbies.GetValueOrDefault(id)?.Go();
-        }
-        catch
+        } catch
         {
             throw new Exception("invalid id or lobby");
         }
@@ -77,8 +78,7 @@ class CliLobbyManager
             if (input == 'q')
             {
                 option = MenuOption.Zero;
-            }
-            else
+            } else
             {
                 int optionInt = int.Parse(input.ToString());
                 option = Enum.Parse<MenuOption>(optionInt.ToString());
@@ -92,8 +92,7 @@ class CliLobbyManager
                 case MenuOption.Zero: { dontClose = false; break; }
                 default: { throw new Exception(); }
             }
-        }
-        catch
+        } catch
         {
             InvalidArgument("invalid option");
         }
@@ -111,9 +110,8 @@ class CliLobbyManager
 
         try
         {
-            lobbyId = Int64.Parse(input!);
-        }
-        catch
+            lobbyId = long.Parse(input!);
+        } catch
         {
             InvalidArgument("non-integer.");
             return;
@@ -122,8 +120,7 @@ class CliLobbyManager
         try
         {
             AddLobby(lobbyId);
-        }
-        catch
+        } catch
         {
             InvalidArgument("invalid lobby id");
         }
@@ -143,9 +140,8 @@ class CliLobbyManager
 
         try
         {
-            lobbyId = Int64.Parse(input!);
-        }
-        catch
+            lobbyId = long.Parse(input!);
+        } catch
         {
             InvalidArgument("non-integer.");
             return;
@@ -168,9 +164,8 @@ class CliLobbyManager
 
         try
         {
-            lobbyId = Int64.Parse(input!);
-        }
-        catch
+            lobbyId = long.Parse(input!);
+        } catch
         {
             InvalidArgument("non-integer.");
             return;
