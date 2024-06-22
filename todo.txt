@@ -1,19 +1,23 @@
 /// todo /// 
 
-best of and warmup count to add lobby page.
-allow adding of multiple lobbies.
- - allow removing of multiple lobbies.
+add other lobby data to the viewlobby page.
+- beatmaps, other stats that are captured.
+
 make own auth with cookies and stuff as a learning exp.
  - only has to be simple: hash, session uuid.
  - do it via a middleware? would be cool to know how it works.
 
 /// maybe-do //
 
+allow adding of multiple lobbies.
+ - allow removing of multiple lobbies.
+
 match stats end result database with sqlite?
 - can then persist state, would be nicer for when auth is done.
 
 /// done /// 
 
+best of and warmup count to add lobby page.
 match cost / impact (can just copy some other implementation of the math for now).
 match detail view.
 remove lobby page

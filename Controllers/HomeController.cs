@@ -45,8 +45,20 @@ public class HomeController : Controller
         {
             try
             {
+                int bestOf = 0;
+                int warmupCount = 0;
+
                 long id = long.Parse(this.Request.Form["LobbyIds"]!);
-                _lobbyService.AddLobby(id);
+                if (!string.IsNullOrWhiteSpace(this.Request.Form["BestOf"]))
+                {
+                    bestOf = int.Parse(this.Request.Form["BestOf"]!);
+                }
+                if (!string.IsNullOrWhiteSpace(this.Request.Form["WarmupCount"]))
+                {
+                    warmupCount = int.Parse(this.Request.Form["WarmupCount"]!);
+                }
+
+                _lobbyService.AddLobby(id, bestOf, warmupCount);
             }
             catch (Exception e)
             {

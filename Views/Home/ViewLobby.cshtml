@@ -58,8 +58,8 @@ th, td {
                     <th>username</th>
                     <th>avg. score</th>
                     <th>avg. acc</th>
-                    <th>cost. game</th>
                     <th>cost. team</th>
+                    <th>cost. game</th>
                 </tr>
                 @foreach (var user in @Model.users?.Where(u => u.Team == "blue")?.OrderByDescending(u => u.MatchCost)!)
                 {
@@ -67,8 +67,8 @@ th, td {
                         <td>@user.username</td>
                         <td>@user.AverageScore</td>
                         <td>@user.AverageAccuracy.ToString("f2")%</td>
-                        <td>@user.MatchCost.ToString("f2")</td>
                         <td>@user.MatchCostTeam.ToString("f2")</td>
+                        <td>@user.MatchCost.ToString("f2")</td>
                     </tr>
                 }
             </table>
@@ -79,8 +79,8 @@ th, td {
                     <th>username</th>
                     <th>avg. score</th>
                     <th>avg. acc</th>
-                    <th>cost. game</th>
                     <th>cost. team</th>
+                    <th>cost. game</th>
                 </tr>
                 @foreach (var user in @Model.users?.Where(u => u.Team == "red")?.OrderByDescending(u => u.MatchCost)!)
                 {
@@ -88,8 +88,8 @@ th, td {
                         <td>@user.username</td>
                         <td>@user.AverageScore</td>
                         <td>@user.AverageAccuracy.ToString("f2")%</td>
-                        <td>@user.MatchCost.ToString("f2")</td>
                         <td>@user.MatchCostTeam.ToString("f2")</td>
+                        <td>@user.MatchCost.ToString("f2")</td>
                     </tr>
                 }
             </table>
