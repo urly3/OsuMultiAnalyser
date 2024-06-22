@@ -39,6 +39,10 @@ th, td {
     padding: 16px;
 }
 
+tr:nth-child(even) {
+    background-color: #d2d2d2;
+}
+
 .blue tr:nth-child(even) {
     background-color: #a2a2f2;
 }
@@ -51,6 +55,7 @@ th, td {
 <div class="text-center">
     <h1>@Model.match?.name</h1>
     <hr>
+    <h3>@Model.BlueWins - @Model.RedWins</h3>
     <div class=row>
         <div class="column blue">
             <table>
@@ -94,5 +99,50 @@ th, td {
                 }
             </table>
         </div>
+        <div class="column">
+            <table>
+                <tr>
+                    <th>highest avg. score</th>
+                    <td>@Model.users.Where(u => u.id == @Model.HighestAverageScore.Item1).First().username</td>
+                    <td>@Model.HighestAverageScore.Item2</td>
+                </tr>
+                <tr>
+                    <th>highest avg. acc</th>
+                    <td>@Model.users.Where(u => u.id == @Model.HighestAverageAccuracy.Item1).First().username</td>
+                    <td>@Model.HighestAverageAccuracy.Item2%</td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+        <h3>beatmaps</h3>
+        <table>
+            <tr>
+                <th>
+                    set id
+                </th>
+                <th>
+                    name
+                </th>
+                <th>
+                    sr
+                </th>
+            </tr>
+            @foreach (var gameEvent in @Model.CompletedGames)
+            {
+                <tr>
+                    <td>
+                        <a href="https://osu.ppy.sh/beatmapsets/@gameEvent.game.beatmap?.beatmapset?.id">
+                            @gameEvent.game?.beatmap?.beatmapset?.id
+                        </a>
+                    </td>
+                    <td>
+                        @gameEvent.game?.beatmap?.beatmapset?.artist - @gameEvent.game?.beatmap?.beatmapset?.title
+                    </td>
+                    <td>
+                        @gameEvent.game?.beatmap?.difficulty_rating.ToString("f2")
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 </div>

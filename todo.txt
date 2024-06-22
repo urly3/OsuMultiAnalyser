@@ -1,8 +1,5 @@
 /// todo /// 
 
-add other lobby data to the viewlobby page.
-- beatmaps, other stats that are captured.
-
 make own auth with cookies and stuff as a learning exp.
  - only has to be simple: hash, session uuid.
  - do it via a middleware? would be cool to know how it works.
@@ -17,6 +14,8 @@ match stats end result database with sqlite?
 
 /// done /// 
 
+add other lobby data to the viewlobby page.
+- beatmaps, other stats that are captured.
 best of and warmup count to add lobby page.
 match cost / impact (can just copy some other implementation of the math for now).
 match detail view.
@@ -24,6 +23,6 @@ remove lobby page
 getting player stats - averages, highest, lowest etc.
 handling aborted games.
 best of param so extra maps are not accounted for (if it's a tourney) e.g. tb played for show.
-(if going to support older lobbies, warmup count to ignore them).
+if going to support older lobbies, warmup count to ignore them.
  - at the moment they count as real maps and will cut it short.
 merging data into a single lobby from multiple requests to the multi link(s) 'api'.
