@@ -10,6 +10,7 @@ match stats end result database with sqlite?
 
 /// done /// 
 
+use the same object for a lobby if it exists under a different alias already.
 make own auth with cookies and stuff as a learning exp.
  - only has to be simple: hash, --session uuid--.
  - do it via a middleware? would be cool to know how it works.

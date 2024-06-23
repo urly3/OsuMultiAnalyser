@@ -14,6 +14,11 @@ class CliLobbyManager
         Third = 3,
     }
 
+    public CliLobbyManager()
+    {
+        Menu();
+    }
+
     public void AddLobby(long id)
     {
         try

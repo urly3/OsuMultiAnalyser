@@ -12,6 +12,13 @@ public class OMAService
 
     public void AddLobby(string hash, long id, int bestOf, int warmupCount)
     {
+        var match = UserLobbies.Values.Where(d => d.ContainsKey(id)).FirstOrDefault();
+        if (match != null)
+        {
+            UserLobbies[hash].Add(id, match[id]);
+            return;
+        }
+
         var lobby = Lobby.Parse(id, bestOf, warmupCount);
         lobby.Go();
         UserLobbies[hash].Add(id, lobby);
