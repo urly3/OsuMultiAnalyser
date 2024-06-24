@@ -1,6 +1,12 @@
 /// todo /// 
 
+align the alias form pre-text like add and remove lobby.
+alias switcher on the nav-bar
+let an alias be set as read-only so it can be used to document x lobbies
+
 /// maybe-do //
+
+allow adding of lobby with link and not just id.
 
 allow adding of multiple lobbies.
  - allow removing of multiple lobbies.
