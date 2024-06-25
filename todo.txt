@@ -1,7 +1,5 @@
 /// todo /// 
 
-alias switcher on the nav-bar.
-
 let an alias be set as read-only so it can be used to document
 a set of lobbies.
 
@@ -17,6 +15,7 @@ match stats end result database with sqlite?
 
 /// done /// 
 
+alias switcher on the nav-bar.
 align the alias form pre-text like add and remove lobby.
 use the same object for a lobby if it exists under a different alias already.
 make own auth with cookies and stuff as a learning exp.
