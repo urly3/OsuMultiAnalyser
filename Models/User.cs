@@ -123,7 +123,8 @@ public class User
             if (this.Team == "blue")
             {
                 matchAvgTeam += playerScore.score / (float)gameEvent?.game?.BlueAverageScore!;
-            } else
+            }
+            else
             {
                 matchAvgTeam += playerScore.score / (float)gameEvent?.game?.RedAverageScore!;
             }

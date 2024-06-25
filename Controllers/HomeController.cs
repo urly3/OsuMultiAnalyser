@@ -40,12 +40,21 @@ public class HomeController : Controller
                 string hash = _omaService.AddUser(Request.Form["alias"]!);
                 Response.Cookies.Append("hash", hash);
 
-            } catch
+            }
+            catch
             {
-                return Error();
             }
 
             return Redirect("/");
+        }
+
+        _hash = Request.Cookies["hash"] ?? "";
+        if (!string.IsNullOrWhiteSpace(_hash))
+        {
+            if (OMAService.ValidateHash(_hash))
+            {
+                return Redirect("/");
+            }
         }
 
         return View();
@@ -61,18 +70,22 @@ public class HomeController : Controller
             return Redirect("/");
         }
 
-        if (!OMAService.UserLobbies[_hash].ContainsKey(id.Value))
+        if (!OMAService.UserLobbies[_hash].Lobbies.ContainsKey(id.Value))
         {
             return NotFound("lobby " + id.Value.ToString() + " not found.");
         }
 
-        return View(OMAService.UserLobbies[_hash][id.Value]);
+        return View(OMAService.UserLobbies[_hash].Lobbies[id.Value]);
     }
 
     [Route("/addlobby")]
     public IActionResult AddLobby()
     {
         _hash = Request.Cookies["hash"]!;
+        if (!OMAService.ValidateHash(_hash) || _omaService.AliasLocked(_hash))
+        {
+            return Redirect("/");
+        }
 
         if (this.Request.Method == "POST")
         {
@@ -92,7 +105,8 @@ public class HomeController : Controller
                 }
 
                 _omaService.AddLobby(_hash, id, bestOf, warmupCount);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest("bad request\n" + e);
             }
@@ -108,13 +122,19 @@ public class HomeController : Controller
     {
         _hash = Request.Cookies["hash"]!;
 
+        if (!OMAService.ValidateHash(_hash) || _omaService.AliasLocked(_hash))
+        {
+            return Redirect("/");
+        }
+
         if (Request.Method == "POST")
         {
             try
             {
                 long id = long.Parse(this.Request.Form["LobbyIds"]!);
                 _omaService.RemoveLobby(_hash, id);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest("bad request\n" + e);
             }
@@ -123,6 +143,20 @@ public class HomeController : Controller
         }
 
         return View();
+    }
+
+    [Route("/aliasswaplock")]
+    public IActionResult AliasSwapLock()
+    {
+        _hash = Request.Cookies["hash"] ?? "";
+        if (string.IsNullOrEmpty(_hash))
+        {
+            return Redirect("/");
+        }
+
+        _omaService.AliasSwapLock(_hash);
+
+        return Redirect("/");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

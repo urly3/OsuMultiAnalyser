@@ -1,13 +1,13 @@
-﻿@model Dictionary<long, Lobby>
+﻿@model Alias
 
 @{
     ViewData["Title"] = "lobbies";
 }
 
 <div class="text-center">
-    @if (Model != null)
+    @if (Model != null && Model.Lobbies != null)
     {
-        foreach (var lobby in Model)
+        foreach (var lobby in Model.Lobbies)
         {
             <a href="/@lobby.Key">
                 <h3> @lobby.Value.match?.name </h3>

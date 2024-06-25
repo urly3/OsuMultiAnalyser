@@ -6,27 +6,27 @@ namespace OMA.Services;
 
 public class OMAService
 {
-    public static Dictionary<string, Dictionary<long, Lobby>> UserLobbies { get; set; } = new();
+    public static Dictionary<string, Alias> UserLobbies { get; set; } = new();
     private readonly IFNV1a _fnv;
     private readonly string _kaneHash;
 
     public void AddLobby(string hash, long id, int bestOf, int warmupCount)
     {
-        var match = UserLobbies.Values.Where(d => d.ContainsKey(id)).FirstOrDefault();
-        if (match != null)
+        var alias = UserLobbies.Values.Where(a => a.Lobbies.ContainsKey(id)).FirstOrDefault();
+        if (alias != null)
         {
-            UserLobbies[hash].Add(id, match[id]);
+            UserLobbies[hash].Lobbies.Add(id, alias.Lobbies[id]);
             return;
         }
 
         var lobby = Lobby.Parse(id, bestOf, warmupCount);
         lobby.Go();
-        UserLobbies[hash].Add(id, lobby);
+        UserLobbies[hash].Lobbies.Add(id, lobby);
     }
 
     public void RemoveLobby(string hash, long id)
     {
-        UserLobbies[hash].Remove(id);
+        UserLobbies[hash].Lobbies.Remove(id);
     }
 
     public string AddUser(string alias)
@@ -34,7 +34,7 @@ public class OMAService
         var hash = _fnv.ComputeHash(Encoding.UTF8.GetBytes(alias)).AsBase64String();
         if (UserLobbies.ContainsKey(hash))
         {
-            if (hash  == _kaneHash)
+            if (hash == _kaneHash)
             {
                 return _kaneHash;
             }
@@ -48,6 +48,35 @@ public class OMAService
     public static bool ValidateHash(string hash)
     {
         return UserLobbies.ContainsKey(hash);
+    }
+
+    public void AliasSwapLock(string hash)
+    {
+        if (!ValidateHash(hash))
+        {
+            return;
+        }
+
+        Alias alias = UserLobbies[hash];
+        if (alias.IsLocked())
+        {
+            alias.Unlock();
+        }
+        else
+        {
+            alias.Lock();
+        }
+    }
+
+    public void UnlockAlias(string hash)
+    {
+        UserLobbies[hash].Unlock();
+    }
+
+    public bool AliasLocked(string hash)
+    {
+        return string.IsNullOrWhiteSpace(hash)
+            || UserLobbies[hash].IsLocked();
     }
 
     public OMAService()

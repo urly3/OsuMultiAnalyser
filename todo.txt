@@ -1,9 +1,8 @@
 /// todo /// 
 
-let an alias be set as read-only so it can be used to document
-a set of lobbies.
-
 /// maybe-do //
+
+remove lobby: list the current lobbies with delete buttons.
 
 allow adding of lobby with link and not just id.
 
@@ -15,6 +14,8 @@ match stats end result database with sqlite?
 
 /// done /// 
 
+let an alias be set as read-only so it can be used to document
+a set of lobbies.
 alias switcher on the nav-bar.
 align the alias form pre-text like add and remove lobby.
 use the same object for a lobby if it exists under a different alias already.

@@ -203,7 +203,8 @@ public class Lobby
                 {
                     blueAverageScore += score.score;
                     ++blueCount;
-                } else
+                }
+                else
                 {
                     redAverageScore += score.score;
                     ++redCount;
