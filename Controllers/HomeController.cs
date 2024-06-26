@@ -131,7 +131,7 @@ public class HomeController : Controller
         {
             try
             {
-                long id = long.Parse(this.Request.Form["LobbyIds"]!);
+                long id = long.Parse(this.Request.Form["lobbyId"]!);
                 _omaService.RemoveLobby(_hash, id);
             }
             catch (Exception e)
