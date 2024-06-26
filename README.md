@@ -119,6 +119,10 @@ Logging in then adds your hash to the dictionary, and gives you a list of lobbie
 I used a non-cryptographic hash since nothing here needs to be private, and just wanted it to be more like
 storage areas as opposed to accounts and security.
 Someone could then give you an alias for a set of lobbies for example to see a whole single tournament.
+To make that work better, I also implemented 'locking' aliases for editing.
+This can't be reversed since everything is anonymous, but the idea being you create an archived list of lobbies for
+others to be able to log into and see.
+Though I did implement this at first before realising it diminishes the whole idea.
 
 - Somewhat piggy-backing the sessions we used in the Flask project, I wanted to quickly write my own
   form of 'Sessions' just to have a better understanding of how Cookies work, and how you can use them

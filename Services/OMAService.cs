@@ -60,7 +60,7 @@ public class OMAService
         Alias alias = UserLobbies[hash];
         if (alias.IsLocked())
         {
-            alias.Unlock();
+            // alias.Unlock();
         }
         else
         {
