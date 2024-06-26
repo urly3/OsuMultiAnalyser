@@ -34,11 +34,7 @@ public class OMAService
         var hash = _fnv.ComputeHash(Encoding.UTF8.GetBytes(alias)).AsBase64String();
         if (UserLobbies.ContainsKey(hash))
         {
-            if (hash == _kaneHash)
-            {
-                return _kaneHash;
-            }
-            throw new Exception("user already exists");
+            return hash;
         }
 
         UserLobbies.Add(hash, new());
