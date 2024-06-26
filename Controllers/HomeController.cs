@@ -94,14 +94,14 @@ public class HomeController : Controller
                 int bestOf = 0;
                 int warmupCount = 0;
 
-                long id = long.Parse(this.Request.Form["LobbyIds"]!);
-                if (!string.IsNullOrWhiteSpace(this.Request.Form["BestOf"]))
+                long id = long.Parse(this.Request.Form["lobbyId"]!);
+                if (!string.IsNullOrWhiteSpace(this.Request.Form["bestOf"]))
                 {
-                    bestOf = int.Parse(this.Request.Form["BestOf"]!);
+                    bestOf = int.Parse(this.Request.Form["bestOf"]!);
                 }
-                if (!string.IsNullOrWhiteSpace(this.Request.Form["WarmupCount"]))
+                if (!string.IsNullOrWhiteSpace(this.Request.Form["warmupCount"]))
                 {
-                    warmupCount = int.Parse(this.Request.Form["WarmupCount"]!);
+                    warmupCount = int.Parse(this.Request.Form["warmupCount"]!);
                 }
 
                 _omaService.AddLobby(_hash, id, bestOf, warmupCount);
