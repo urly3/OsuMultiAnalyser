@@ -124,6 +124,9 @@
                     name
                 </th>
                 <th>
+                    diff
+                </th>
+                <th>
                     sr
                 </th>
             </tr>
@@ -137,6 +140,9 @@
                     </td>
                     <td>
                         @gameEvent.game?.beatmap?.beatmapset?.artist - @gameEvent.game?.beatmap?.beatmapset?.title
+                    </td>
+                    <td>
+                        @gameEvent.game?.beatmap?.version
                     </td>
                     <td>
                         @gameEvent.game?.beatmap?.difficulty_rating.ToString("f2")
